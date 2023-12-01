@@ -4,11 +4,7 @@
     <OutputType>Exe</OutputType>
     <TargetFramework>net7.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
+    <RootNamespace>rsmith985.AOC._2023</RootNamespace>
   </PropertyGroup>
-
-  <ItemGroup>
-    <Folder Include="Days\" />
-  </ItemGroup>
 
 </Project>
