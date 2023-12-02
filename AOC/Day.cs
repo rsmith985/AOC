@@ -8,7 +8,7 @@ public abstract class Day
 
     public int Year{ get; }
 
-    private string _file => $"../../../{this.Year}/inputs/input{this.Num}.txt";
+    private string _file => $"../../../Y{this.Year}/inputs/input{this.Num}.txt";
 
     public Day()
     {

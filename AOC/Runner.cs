@@ -1,5 +1,4 @@
-﻿using System.Security.Cryptography;
-using rsmith985.AOC;
+﻿using rsmith985.AOC;
 
 if(args.Length == 0)
 {
@@ -18,14 +17,41 @@ if(args.Length == 0)
 }
 else
 {
+    var input = args;
     while(true)
     {
-        var fail = int.TryParse(args[0], out int year);
-        if(fail)
+        if(input.Length < 1 || input.Length > 2)
             goto Usage;
 
+        if(input[0] == "exit")
+            break;
+
+        var year = -1;
+        var day = -1;
+
+        if(args[0] != "all")
+        {
+            if(!int.TryParse(input[0], out year))
+                goto Usage;
+        }
+
+        if(year >= 0 && args.Length == 2)
+        {
+            if(!int.TryParse(input[1], out day))
+                goto Usage;
+        }
+
+        var days = 
+            year < 0 ? Utils.GetAllSolutions() : 
+            day < 0 ? Utils.GetSolutions(year) :
+            new List<Day>(){Utils.GetSolution(year, day)};
+
+        foreach(var item in days.OrderByDescending(i => i.Year).ThenBy(i => i.Num))
+            item.Run();
 
         Usage:
-            Console.WriteLine("");
+            Console.WriteLine("AOC.exe [year [day]] | all | exit");
+            var data = Console.ReadLine();
+            input = data.Split(' ');
     }
 }

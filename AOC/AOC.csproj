@@ -7,8 +7,4 @@
     <RootNamespace>rsmith985.AOC</RootNamespace>
   </PropertyGroup>
 
-  <ItemGroup>
-    <Folder Include="2023\" />
-  </ItemGroup>
-
 </Project>

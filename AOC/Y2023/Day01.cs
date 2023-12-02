@@ -1,5 +1,5 @@
 ﻿
-namespace rsmith985.AOC._2023;
+namespace rsmith985.AOC.Y2023;
 
 public class Day01 : Day
 {
