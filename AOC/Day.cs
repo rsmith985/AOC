@@ -8,7 +8,9 @@ public abstract class Day
 
     public int Year{ get; }
 
-    private string _file => $"../../../Y{this.Year}/inputs/input{this.Num}.txt";
+    private string _file => _testFile ?? $"../../../Y{this.Year}/inputs/input{this.Num}.txt";
+
+    protected virtual string _testFile { get; } = null;
 
     public Day()
     {
@@ -26,6 +28,11 @@ public abstract class Day
 
     public bool Run()
     {
+        if(this.Year == DateTime.Now.Year && this.Num > DateTime.Now.Day)
+        {
+            Console.WriteLine($"Attempting to run future date {this.Num}/{this.Year}");
+            return false;
+        }
         if(!File.Exists(_file))
         {
             Utils.DownloadInput(this.Num);
@@ -60,12 +67,14 @@ public abstract class Day
     protected StreamReader GetReader() => new StreamReader(_file);
     protected string[] GetLines() => File.ReadAllLines(_file);
 
-    protected List<string[]> GetWordsPerLine()
+    protected List<string[]> GetWordsPerLine(char sep = ' ', bool trim = true)
     {
         var rv = new List<string[]>();
         foreach(var line in GetLines())
         {
-            var words = line.Split(' ');
+            var words = line.Split(sep);
+            if(trim)
+                words = words.Select(i => i.Trim()).ToArray();
             rv.Add(words);
         }
         return rv;
@@ -76,6 +85,17 @@ public abstract class Day
         var rv = new List<int>();
         foreach(var line in GetLines())
             rv.Add(int.Parse(line));
+        return rv;
+    }
+
+    protected List<(string k, string v)> GetKVList(char sep = ' ')
+    {
+        var rv = new List<(string, string)>();
+        foreach(var line in GetLines())
+        {
+            var parts = line.Split(sep);
+            rv.Add((parts[0], parts[1]));
+        }
         return rv;
     }
 }

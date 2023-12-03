@@ -4,7 +4,7 @@ public class Day02 : Day
 {
     public override object Part1()
     {
-        var max = new Dictionary<string, int>() { {"red", 12}, {"green", 13}, {"blue", 14}};
+        var max = Utils.CreateDict<string, int>("red", 12, "green", 13, "blue", 14);
         var data = new Dictionary<int, List<Dictionary<string, int>>>();
         foreach(var line in this.GetLines())
             parseLine(line, data);
@@ -25,6 +25,16 @@ public class Day02 : Day
         return tot;
     }
 
+    private bool possible(Dictionary<string, int> max, Dictionary<string, int> data)
+    {
+        foreach(var key in max.Keys)
+        {
+            if(data.ContainsKey(key) && data[key] > max[key])
+                return false;
+        }
+        return true;
+    }
+
     public override object Part2()
     {
         var data = new Dictionary<int, List<Dictionary<string, int>>>();
@@ -34,7 +44,7 @@ public class Day02 : Day
         var tot = 0;
         foreach(var game in data.Keys)
         {
-            var max = new Dictionary<string, int>(){{"red", 0}, {"green", 0}, {"blue", 0}};
+            var max = Utils.CreateDict<string, int>("red", 0, "green", 0, "blue", 0);
             foreach(var set in data[game])
             {
                 foreach(var key in max.Keys)
@@ -48,39 +58,19 @@ public class Day02 : Day
         return tot;
     }
 
-    private bool possible(Dictionary<string, int> max, Dictionary<string, int> data)
-    {
-        foreach(var key in max.Keys)
-        {
-            if(data.ContainsKey(key) && data[key] > max[key])
-                return false;
-        }
-        return true;
-    }
-
     private void parseLine(string line, Dictionary<int, List<Dictionary<string, int>>> data)
     {
         var idx = line.IndexOf(":");
         var gameNum = int.Parse(line[4..idx]);
 
         var rest = line[(idx+1)..];
-
         var sets = rest.Split(';');
 
         var list = new List<Dictionary<string, int>>();
         foreach(var set in sets)
         {
-            var parts = set.Split(',');
-
-            var dict = new Dictionary<string, int>();
-            foreach(var part in parts)
-            {
-                var kv = part.Trim().Split(' ');
-                var num = int.Parse(kv[0]);
-                var color = kv[1];
-                dict.Add(color, num);
-            }
-
+            var items = Utils.GetKVList(set, ',', ' ');
+            var dict = items.ToDictionary(i => i.v, i => int.Parse(i.k));
             list.Add(dict);
         }
 

@@ -1,5 +1,4 @@
-﻿
-namespace rsmith985.AOC.Y2023;
+﻿namespace rsmith985.AOC.Y2023;
 
 public class Day01 : Day
 {
@@ -30,10 +29,9 @@ public class Day01 : Day
 
     public override object Part2()
     {
-        var lookup = new Dictionary<string, int>(){
-            { "one", 1}, {"two", 2}, {"three", 3}, {"four", 4}, {"five", 5},
-            {"six", 6}, {"seven", 7}, {"eight", 8}, {"nine", 9}
-        };
+        var lookup = Utils.CreateDict<string, int>(
+            "one", 1, "two", 2, "three", 3, "four", 4, "five", 5,
+            "six", 6, "seven", 7, "eight", 8, "nine", 9);
 
         var tot = 0;        
         foreach(var line in this.GetLines())

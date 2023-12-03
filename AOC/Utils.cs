@@ -12,7 +12,7 @@ public class Utils
         client.Headers.Add(HttpRequestHeader.Cookie, $"session={Const.SESSION_ID}");
         client.DownloadFile(
             $"https://adventofcode.com/{Const.YEAR}/day/{day}/input", 
-            $"../../../{Const.YEAR}/inputs/input{day}.txt");
+            $"../../../Y{Const.YEAR}/inputs/input{day}.txt");
         #pragma warning restore
     }
 
@@ -51,5 +51,44 @@ public class Utils
             if(t.IsSubclassOf(type) && !t.IsAbstract)
                 yield return (Day)Activator.CreateInstance(t);
         }
+    }
+
+    public static IEnumerable<(string k, string v)> GetKVList(string txt, char itemSep = ',', char kvSep = ' ')
+    {
+        var items = txt.Split(itemSep);
+        foreach(var item in items)
+        {
+            var kv = item.Trim().Split(kvSep);
+            yield return (kv[0], kv[1]);
+        }
+    }
+
+    public static Dictionary<K, V> CreateDict<K, V>(params object[] items)
+    {
+        var dict = new Dictionary<K, V>();
+        for(int i = 0; i < items.Length; i+=2)
+            dict.Add((K)items[i], (V)items[i+1]);
+        return dict;
+    }
+
+    public static List<string> PadBorder(string[] lines, char pad = ' ')
+    {
+        var w = lines[0].Length;
+        var rv = new List<string>();
+
+        var first = "";
+        var last = "";
+        for(int i = 0; i < w + 2; i++)
+        {
+            first += pad;
+            last += pad;
+        }
+
+        rv.Add(first);
+        foreach(var line in lines)
+            rv.Add(pad + line + pad);
+        rv.Add(last);
+
+        return rv;
     }
 }

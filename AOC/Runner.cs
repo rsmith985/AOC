@@ -2,7 +2,7 @@
 
 if(args.Length == 0)
 {
-    Console.WriteLine($"Running Latest for {Const.YEAR}");
+    Console.WriteLine($"Running Latest for Year {Const.YEAR}");
 
     var days = Utils.GetSolutions();
     days = days.OrderBy(i => i.Num).Reverse().ToList();
@@ -50,7 +50,7 @@ else
             item.Run();
 
         Usage:
-            Console.WriteLine("AOC.exe [year [day]] | all | exit");
+            Console.WriteLine("Usage: AOC.exe [year [day]] | all | exit");
             var data = Console.ReadLine();
             input = data.Split(' ');
     }
