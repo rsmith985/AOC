@@ -1,6 +1,4 @@
-﻿using System.Collections.Immutable;
-using System.Runtime.CompilerServices;
-
+﻿
 namespace rsmith985.AOC.Y2023;
 
 public class Day03 : Day
@@ -117,12 +115,7 @@ public class Day03 : Day
                     if(set.Count() == 2)
                     {
                         var list = set.ToList();
-                        Console.WriteLine(list[0] + " " + list[1]);
-                        Console.WriteLine();
-                        tot += list[0]*list[1];
-                    }
-                    else{
-                        Console.WriteLine("Failed");
+                        tot += list[0] * list[1];
                     }
 
                 }

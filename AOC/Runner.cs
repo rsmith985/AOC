@@ -1,5 +1,7 @@
 ﻿using rsmith985.AOC;
 
+args = new string[] {"all"};
+
 if(args.Length == 0)
 {
     Console.WriteLine($"Running Latest for Year {Const.YEAR}");
