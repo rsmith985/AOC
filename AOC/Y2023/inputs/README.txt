@@ -1,0 +1,3 @@
+Put input files here they should be named 'input<num>.txt', eg. input1.txt, input2.txt, ...
+
+Or add a session.txt file to root of project that contains session cookie for advent of code.  This will allow the input to automatically be downloaded.
