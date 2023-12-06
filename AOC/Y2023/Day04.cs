@@ -2,6 +2,18 @@
 
 public class Day04 : Day
 {
+    public override object Part1_()
+    {
+        return File.ReadAllLines(_file)
+            .Select(line => 
+                (new HashSet<int>(line[(line.IndexOf(':') + 1)..line.IndexOf('|')].Split(' ', StringSplitOptions.RemoveEmptyEntries).Select(i => int.Parse(i))),
+                 new HashSet<int>(line[(line.IndexOf('|') + 1)..].Split(' ', StringSplitOptions.RemoveEmptyEntries).Select(i => int.Parse(i))))
+                )
+            .Select(item => item.Item2.Count(i => item.Item1.Contains(i)))
+            .Where(i => i != 0)
+            .Sum(i => Math.Pow(2, i - 1));
+    }
+
     public override object Part1()
     {
         var tot = 0.0;
@@ -20,7 +32,8 @@ public class Day04 : Day
             var set2 = new HashSet<int>(nums2.Select(i => int.Parse(i)));
 
             var correct = 0;
-            foreach(var num in set2){
+            foreach(var num in set2)
+            {
                 if(set1.Contains(num))
                     correct++;
             }
@@ -55,7 +68,8 @@ public class Day04 : Day
             var set2 = new HashSet<int>(nums2.Select(i => int.Parse(i)));
 
             var correct = 0;
-            foreach(var num in set2){
+            foreach(var num in set2)
+            {
                 if(set1.Contains(num))
                     correct++;
             }

@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System.Diagnostics;
+using System.Net;
 
 namespace rsmith985.AOC;
 
@@ -8,7 +9,7 @@ public abstract class Day
 
     public int Year{ get; }
 
-    private string _file => _testFile ?? $"../../../Y{this.Year}/inputs/input{this.Num}.txt";
+    protected string _file => _testFile ?? $"../../../Y{this.Year}/inputs/input{this.Num}.txt";
 
     protected virtual string _testFile { get; } = null;
 
@@ -25,6 +26,8 @@ public abstract class Day
 
     public abstract object Part1();
     public abstract object Part2();
+    public virtual object Part1_() => null;
+    public virtual object Part2_() => null;
 
     public bool Run()
     {
@@ -46,12 +49,34 @@ public abstract class Day
         var dayStr = $"Day {this.Num.ToString().PadLeft(2, '0')}";
         try
         {
+            var timer = Stopwatch.StartNew();
             var part1 = this.Part1();
-            Console.WriteLine($"{dayStr} | Part 1: {part1}");
+            timer.Stop();
+            Console.WriteLine($"{dayStr} | Part 1: {part1}  | {timer.ElapsedMilliseconds} ms");
             try
             {
+                timer = Stopwatch.StartNew();
+                var part1_ = this.Part1_();
+                timer.Stop();
+                if(part1_ != null)
+                    Console.WriteLine($"{dayStr} | Part 1: {part1_}* | {timer.ElapsedMilliseconds} ms");
+            } 
+            catch(NotImplementedException) { }
+            try
+            {
+                timer = Stopwatch.StartNew();
                 var part2 = this.Part2();
-                Console.WriteLine($"{dayStr} | Part 2: {part2}");
+                timer.Stop();
+                Console.WriteLine($"{dayStr} | Part 2: {part2}  | {timer.ElapsedMilliseconds} ms");
+            } 
+            catch(NotImplementedException) { }
+            try
+            {
+                timer = Stopwatch.StartNew();
+                var part2_ = this.Part2_();
+                timer.Stop();
+                if(part2_ != null)
+                    Console.WriteLine($"{dayStr} | Part 2: {part2_}* | {timer.ElapsedMilliseconds} ms");
             } 
             catch(NotImplementedException) { }
         }

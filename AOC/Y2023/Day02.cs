@@ -2,6 +2,14 @@
 
 public class Day02 : Day
 {
+    public override object Part1_() =>
+        File.ReadAllLines(_file)
+            .Where(line =>
+                Regex.Matches(line, "\\d+\\sblue").All(i => int.Parse(i.Value[0..^5]) <= 14) &&
+                Regex.Matches(line, "\\d+\\sred").All(i => int.Parse(i.Value[0..^4]) <= 12) &&
+                Regex.Matches(line, "\\d+\\sgreen").All(i => int.Parse(i.Value[0..^6]) <= 13))
+            .Select(line => int.Parse(line[5..line.IndexOf(':')]))
+            .Sum();  
     public override object Part1()
     {
         var max = Utils.CreateDict<string, int>("red", 12, "green", 13, "blue", 14);
@@ -25,15 +33,13 @@ public class Day02 : Day
         return tot;
     }
 
-    private bool possible(Dictionary<string, int> max, Dictionary<string, int> data)
-    {
-        foreach(var key in max.Keys)
-        {
-            if(data.ContainsKey(key) && data[key] > max[key])
-                return false;
-        }
-        return true;
-    }
+    public override object Part2_() =>
+        File.ReadAllLines(_file)
+            .Select(line =>
+                Regex.Matches(line, "\\d+\\sblue").Max(i => int.Parse(i.Value[0..^5])) *
+                Regex.Matches(line, "\\d+\\sred").Max(i => int.Parse(i.Value[0..^4])) *
+                Regex.Matches(line, "\\d+\\sgreen").Max(i => int.Parse(i.Value[0..^6])))
+            .Sum(); 
 
     public override object Part2()
     {
@@ -58,8 +64,20 @@ public class Day02 : Day
         return tot;
     }
 
+    private bool possible(Dictionary<string, int> max, Dictionary<string, int> data)
+    {
+        foreach(var key in max.Keys)
+        {
+            if(data.ContainsKey(key) && data[key] > max[key])
+                return false;
+        }
+        return true;
+    }
+
     private void parseLine(string line, Dictionary<int, List<Dictionary<string, int>>> data)
     {
+        var matches = Regex.Matches(line, "\\d\\sblue").Select(i => i.Value[0..^5]).ToList();
+
         var idx = line.IndexOf(":");
         var gameNum = int.Parse(line[4..idx]);
 

@@ -1,6 +1,7 @@
 ﻿using rsmith985.AOC;
 
 args = new string[] {"all"};
+//args = new string[] {"2023",  "3"};
 
 if(args.Length == 0)
 {
@@ -50,6 +51,7 @@ else
 
         foreach(var item in days.OrderByDescending(i => i.Year).ThenBy(i => i.Num))
             item.Run();
+        return;
 
         Usage:
             Console.WriteLine("Usage: AOC.exe [year [day]] | all | exit");

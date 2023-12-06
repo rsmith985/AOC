@@ -2,6 +2,9 @@
 
 public class Day01 : Day
 {
+    public override object Part1_() =>
+        File.ReadAllLines(_file).Sum(l => (l.First(i => Char.IsDigit(i))) * 10  + l.Last(i => Char.IsDigit(i)) - 528);
+
     public override object Part1()
     {
         var tot = 0;
@@ -26,6 +29,20 @@ public class Day01 : Day
 
         return tot;
     }
+        
+    public override object Part2_() =>
+        File.ReadAllLines(_file)
+            .Select(l => l
+                .Replace("one", "o1e")
+                .Replace("two", "t2o")
+                .Replace("three", "t3e")
+                .Replace("four", "4")
+                .Replace("five", "5e")
+                .Replace("six", "6")
+                .Replace("seven", "7")
+                .Replace("eight", "e8t")
+                .Replace("nine", "9e")
+            ).Sum(l => (l.First(i => Char.IsDigit(i))) * 10  + l.Last(i => Char.IsDigit(i)) - 528);
 
     public override object Part2()
     {

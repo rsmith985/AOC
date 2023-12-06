@@ -1,9 +1,47 @@
-﻿using System.Runtime.CompilerServices;
-
-namespace rsmith985.AOC.Y2023;
+﻿namespace rsmith985.AOC.Y2023;
 
 public class Day05 : Day
 {
+    public override object Part1_()
+    {
+        return new Func<List<List<(long, long, long)>>, long>(maps =>
+            File.ReadLines(_file).First()[7..].Split(' ').Select(i => long.Parse(i))
+            .Select(i => maps[0].FirstOrDefault(
+                m => i >= m.Item2 && i < (m.Item2 + m.Item3)).Item1 + i - 
+                    maps[0].FirstOrDefault(m =>i >= m.Item2 && i < (m.Item2 + m.Item3)).Item2)
+            .Select(i => maps[1].FirstOrDefault(
+                m => i >= m.Item2 && i < (m.Item2 + m.Item3)).Item1 + i - 
+                    maps[1].FirstOrDefault(m =>i >= m.Item2 && i < (m.Item2 + m.Item3)).Item2)
+            .Select(i => maps[2].FirstOrDefault(
+                m => i >= m.Item2 && i < (m.Item2 + m.Item3)).Item1 + i - 
+                    maps[2].FirstOrDefault(m =>i >= m.Item2 && i < (m.Item2 + m.Item3)).Item2)
+            .Select(i => maps[3].FirstOrDefault(
+                m => i >= m.Item2 && i < (m.Item2 + m.Item3)).Item1 + i - 
+                    maps[3].FirstOrDefault(m =>i >= m.Item2 && i < (m.Item2 + m.Item3)).Item2)
+            .Select(i => maps[4].FirstOrDefault(
+                m => i >= m.Item2 && i < (m.Item2 + m.Item3)).Item1 + i - 
+                    maps[4].FirstOrDefault(m =>i >= m.Item2 && i < (m.Item2 + m.Item3)).Item2)
+            .Select(i => maps[5].FirstOrDefault(
+                m => i >= m.Item2 && i < (m.Item2 + m.Item3)).Item1 + i - 
+                    maps[5].FirstOrDefault(m =>i >= m.Item2 && i < (m.Item2 + m.Item3)).Item2)
+            .Select(i => maps[6].FirstOrDefault(
+                m =>i >= m.Item2 && i < (m.Item2 + m.Item3)).Item1 + i - 
+                    maps[6].FirstOrDefault(m =>i >= m.Item2 && i < (m.Item2 + m.Item3)).Item2)
+            .Min()
+        )(File.ReadAllLines(_file)
+            .Skip(1)
+            .Where(i => !string.IsNullOrWhiteSpace(i))
+            .Select(i => i.Contains(':') ? ":" : i)
+            .Aggregate("", (i1, i2) => i1 + i2 + "|")
+            .Split(":|", StringSplitOptions.RemoveEmptyEntries)
+            .Select(i => i.Split('|', StringSplitOptions.RemoveEmptyEntries)
+                .Select(j => j.Split(' ', StringSplitOptions.RemoveEmptyEntries))
+                .Select(k => (long.Parse(k[0]), long.Parse(k[1]), long.Parse(k[2])))
+                .Concat(new List<(long, long, long)>(){(0, 0, long.MaxValue)})
+                .ToList()
+            ).ToList());
+    }
+
     public override object Part1()
     {
         var lines = this.GetLines();

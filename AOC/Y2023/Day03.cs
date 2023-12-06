@@ -1,8 +1,20 @@
-﻿
-namespace rsmith985.AOC.Y2023;
+﻿namespace rsmith985.AOC.Y2023;
 
 public class Day03 : Day
 {
+    public override object Part1_() =>
+        new Func<string, long>(str =>
+            Regex.Matches(str, "[0-9]+")
+                .Where(i => 
+                    new List<int>(){i.Index-1, i.Index+i.Length}
+                        .Concat(Enumerable.Range(i.Index-142, i.Length+2))
+                        .Concat(Enumerable.Range(i.Index+140,i.Length+2))
+                    .Select(i => (str[i], i))
+                    .Any(i => !(i.Item1 == '.' || (i.Item1 >= 48 && i.Item1 <= 57)))
+                ).Select(i => int.Parse(i.Value))
+                .Sum()
+        )(new string('.', 141) + string.Join('.', File.ReadAllLines(_file)) + new string('.', 141));
+
     public override object Part1()
     {
         var init = this.GetLines();
@@ -48,13 +60,24 @@ public class Day03 : Day
         return tot;
     }
 
-    private bool isSymbol(List<string> lines, int x, int y)
-    {
-        var c = lines[y][x];
-        var isPeriod = c == '.';
-        var isNum = c >= 0 && c <= 9;
-        return !isPeriod && !isNum;
-    }
+    public override object Part2_() =>
+        new Func<string, Dictionary<int, string>, long>((str, matches) =>
+            Enumerable.Range(0, str.Length)
+                .Select(i => (i, str[i]))
+                .Where(i => i.Item2 == '*')
+                .Select(i => new HashSet<int>(
+                    new List<int>(){i.i - 1, i.i + 1, i.i - 142, i.i - 141, i.i - 140, i.i + 140, i.i + 141, i.i + 142}
+                        .Where(i => matches.ContainsKey(i))
+                        .Select(i => int.Parse(matches[i]))
+                    )
+                )
+                .Where(i => i.Count == 2)
+                .Select(i => (long)i.First() * (long)i.Last())
+                .Sum()
+        )(new string('.', 141) + string.Join('.', File.ReadAllLines(_file)) + new string('.', 141),
+            Regex.Matches(new string('.', 141) + string.Join('.', File.ReadAllLines(_file)) + new string('.', 141), "[0-9]+")
+            .SelectMany(i => Enumerable.Range(i.Index, i.Length).Select(j => (j, i.Value)))
+            .ToDictionary(i => i.j, i => i.Value));
 
     public override object Part2()
     {
@@ -123,5 +146,13 @@ public class Day03 : Day
         }
         
         return tot;
+    }
+
+    private bool isSymbol(List<string> lines, int x, int y)
+    {
+        var c = lines[y][x];
+        var isPeriod = c == '.';
+        var isNum = c >= 0 && c <= 9;
+        return !isPeriod && !isNum;
     }
 }
