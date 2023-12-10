@@ -1,9 +1,12 @@
-﻿using System.Net;
+﻿using System.ComponentModel;
+using System.Diagnostics.Contracts;
+using System.Net;
 using System.Reflection;
+using System.Security.Cryptography;
 
 namespace rsmith985.AOC;
 
-public class Utils
+public static class Utils
 {
     public static void DownloadInput(int day)
     {
@@ -91,4 +94,18 @@ public class Utils
 
         return rv;
     }
+
+    public static IEnumerable<T> Perform<T>(this IEnumerable<T> items, Action<T> action) 
+    { 
+        foreach(var item in items)  
+            action(item);
+        return items;
+    }
+
+    public static IEnumerable<long> Range(long start, long len)
+    {
+        for(var i = start; i < start + len; i++)
+            yield return i;
+    }
 }
+

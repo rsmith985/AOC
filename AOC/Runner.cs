@@ -1,7 +1,10 @@
 ﻿using rsmith985.AOC;
+using rsmith985.AOC.Y2023;
 
-args = new string[] {"all"};
-//args = new string[] {"2023",  "3"};
+//SingleLine.Run();
+
+//args = new string[] {"all"};
+//args = new string[] {"2023",  "4"};
 
 if(args.Length == 0)
 {

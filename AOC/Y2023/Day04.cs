@@ -1,10 +1,13 @@
-﻿namespace rsmith985.AOC.Y2023;
+﻿using System.Globalization;
+using System.Reflection.Metadata.Ecma335;
+using System.Runtime.CompilerServices;
+
+namespace rsmith985.AOC.Y2023;
 
 public class Day04 : Day
 {
-    public override object Part1_()
-    {
-        return File.ReadAllLines(_file)
+    public override object Part1_() =>
+        File.ReadAllLines(_file)
             .Select(line => 
                 (new HashSet<int>(line[(line.IndexOf(':') + 1)..line.IndexOf('|')].Split(' ', StringSplitOptions.RemoveEmptyEntries).Select(i => int.Parse(i))),
                  new HashSet<int>(line[(line.IndexOf('|') + 1)..].Split(' ', StringSplitOptions.RemoveEmptyEntries).Select(i => int.Parse(i))))
@@ -12,7 +15,19 @@ public class Day04 : Day
             .Select(item => item.Item2.Count(i => item.Item1.Contains(i)))
             .Where(i => i != 0)
             .Sum(i => Math.Pow(2, i - 1));
-    }
+
+    public override object Part2_() =>
+        new Func<List<int>, List<int>, long>((data, copies) =>
+            Enumerable.Range(0, data.Count())
+                .Aggregate((0, copies), (a, b) => (a.Item1+1, a.copies.Select((c, idx) => idx > a.Item1 && idx <= a.Item1 + data[a.Item1] ? c + a.copies[a.Item1] : c).ToList()))
+                .copies.Sum())
+            (File.ReadAllLines(_file)
+                .Select(line => 
+                    (new HashSet<int>(line[(line.IndexOf(':') + 1)..line.IndexOf('|')].Split(' ', StringSplitOptions.RemoveEmptyEntries).Select(i => int.Parse(i))),
+                     new HashSet<int>(line[(line.IndexOf('|') + 1)..].Split(' ', StringSplitOptions.RemoveEmptyEntries).Select(i => int.Parse(i))))
+                    )
+                .Select(item => item.Item2.Count(i => item.Item1.Contains(i))).ToList(),
+            new int[File.ReadAllLines(_file).Count()].Select(i => 1).ToList());
 
     public override object Part1()
     {

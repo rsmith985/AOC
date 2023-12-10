@@ -1,4 +1,5 @@
 */bin
 */obj
 */*/inputs/input*.txt
+*test*.txt
 session.txt

@@ -10,6 +10,11 @@ public class Day06 : Day
         )(File.ReadAllLines(_file)[0][5..].Split(' ', StringSplitOptions.RemoveEmptyEntries).Select(i => long.Parse(i)).ToList(), 
           File.ReadAllLines(_file)[1][9..].Split(' ', StringSplitOptions.RemoveEmptyEntries).Select(i => long.Parse(i)).ToList());
 
+    public override object Part2_() =>
+        new Func<long, long, long>((time, dist) =>
+            ((time / 2) - Enumerable.Range(1, int.MaxValue).First(t => (time - t) * t > dist) + 1) * 2 + ((time % 2 == 0) ? -1 : 0)
+        )(long.Parse(File.ReadAllLines(_file)[0].Replace(" ", "")[5..]), long.Parse(File.ReadAllLines(_file)[1].Replace(" ", "")[9..]));
+
     public override object Part1()
     {
         var lines = this.GetLines();
@@ -36,11 +41,6 @@ public class Day06 : Day
         }
         return tot;
     }
-
-    public override object Part2_() =>
-        new Func<long, long, long>((time, dist) =>
-            ((time / 2) - Enumerable.Range(1, int.MaxValue).First(t => (time - t) * t > dist) + 1) * 2 + ((time % 2 == 0) ? -1 : 0)
-        )(long.Parse(File.ReadAllLines(_file)[0].Replace(" ", "")[5..]), long.Parse(File.ReadAllLines(_file)[1].Replace(" ", "")[9..]));
 
     public override object Part2()
     {

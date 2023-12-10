@@ -8,8 +8,15 @@ public class Day02 : Day
                 Regex.Matches(line, "\\d+\\sblue").All(i => int.Parse(i.Value[0..^5]) <= 14) &&
                 Regex.Matches(line, "\\d+\\sred").All(i => int.Parse(i.Value[0..^4]) <= 12) &&
                 Regex.Matches(line, "\\d+\\sgreen").All(i => int.Parse(i.Value[0..^6]) <= 13))
-            .Select(line => int.Parse(line[5..line.IndexOf(':')]))
-            .Sum();  
+            .Sum(line => int.Parse(line[5..line.IndexOf(':')]));  
+
+    public override object Part2_() =>
+        File.ReadAllLines(_file)
+            .Sum(line =>
+                Regex.Matches(line, "\\d+\\sblue").Max(i => int.Parse(i.Value[0..^5])) *
+                Regex.Matches(line, "\\d+\\sred").Max(i => int.Parse(i.Value[0..^4])) *
+                Regex.Matches(line, "\\d+\\sgreen").Max(i => int.Parse(i.Value[0..^6]))); 
+
     public override object Part1()
     {
         var max = Utils.CreateDict<string, int>("red", 12, "green", 13, "blue", 14);
@@ -32,14 +39,6 @@ public class Day02 : Day
 
         return tot;
     }
-
-    public override object Part2_() =>
-        File.ReadAllLines(_file)
-            .Select(line =>
-                Regex.Matches(line, "\\d+\\sblue").Max(i => int.Parse(i.Value[0..^5])) *
-                Regex.Matches(line, "\\d+\\sred").Max(i => int.Parse(i.Value[0..^4])) *
-                Regex.Matches(line, "\\d+\\sgreen").Max(i => int.Parse(i.Value[0..^6])))
-            .Sum(); 
 
     public override object Part2()
     {
