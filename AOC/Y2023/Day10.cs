@@ -28,7 +28,6 @@ public class Day10 : Day
         var points = getLoop(graph, start);
         
         var set = new HashSet<Point>(points);
-        //var pointsF = points.Select(i => i.ToFloat()).ToList();
         var bounds = points.GetBoundingRect();
 
         var count = 0;

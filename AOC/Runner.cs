@@ -4,7 +4,7 @@ using rsmith985.AOC.Y2023;
 //SingleLine.Run();
 
 //args = new string[] {"all"};
-//args = new string[] {"2023",  "4"};
+//args = new string[] {"2023",  "12"};
 
 if(args.Length == 0)
 {

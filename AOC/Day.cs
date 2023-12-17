@@ -9,9 +9,12 @@ public abstract class Day
 
     public int Year{ get; }
 
+
     protected string _file => _testFile ?? $"../../../Y{this.Year}/inputs/input{this.Num}.txt";
 
-    protected virtual string _testFile { get; } = null;
+    protected virtual bool _useDefaultTestFile => false;
+    protected virtual string _testFile  => _useDefaultTestFile ? @"D:\Google Drive\_Ryan\Code\C#\AOC\test.txt" : null;
+    protected virtual string _testString => null;
 
     public Day()
     {
@@ -24,6 +27,7 @@ public abstract class Day
         this.Year = int.Parse(space[^4..]);
     }
 
+    public virtual void Init(){}
     public abstract object Part1();
     public abstract object Part2();
     public virtual object Part1_() => null;
@@ -49,6 +53,7 @@ public abstract class Day
         var dayStr = $"Day {this.Num.ToString().PadLeft(2, '0')}";
         try
         {
+            this.Init();
             var timer = Stopwatch.StartNew();
             var part1 = this.Part1();
             timer.Stop();
@@ -90,7 +95,7 @@ public abstract class Day
     }
 
     protected StreamReader GetReader() => new StreamReader(_file);
-    protected string[] GetLines() => File.ReadAllLines(_file);
+    protected string[] GetLines() => _testString != null ? _testString.Split(Environment.NewLine).ToArray() : File.ReadAllLines(_file);
 
     protected List<string[]> GetWordsPerLine(char sep = ' ', bool trim = true)
     {

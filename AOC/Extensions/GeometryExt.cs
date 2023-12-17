@@ -1,8 +1,9 @@
 ﻿using System.Drawing;
+using Emgu.CV.ML;
 
 namespace rsmith985.AOC.Y2023;
 
-public static class Ext
+public static class GeometryExt
 {
     public static Point ToPoint(this Size s) => new Point(s.Width, s.Height);
     public static PointF ToPoint(this SizeF s) => new PointF(s.Width, s.Height);
@@ -11,6 +12,7 @@ public static class Ext
 
     #region Point
     public static Point Plus(this Point p, int num) => new Point(p.X+num, p.Y+num);
+    public static Point Plus(this Point p, int x, int y) => new Point(p.X+x, p.Y+y);
     public static Point Plus(this Point p, Point p2) => new Point(p.X+p2.X, p.Y+p2.Y);
     public static Point Mult(this Point p, int num) => new Point(p.X*num, p.Y*num);
     public static Point Mult(this Point p, Point p2) => new Point(p.X*p2.X, p.Y*p2.Y);
@@ -19,6 +21,7 @@ public static class Ext
     public static Point Invert(this Point p) => p.Mult(-1);
 
     public static PointF Plus(this PointF p, float num) => new PointF(p.X+num, p.Y+num);
+    public static PointF Plus(this PointF p, float x, float y) => new PointF(p.X+x, p.Y+y);
     public static PointF Plus(this PointF p, PointF p2) => new PointF(p.X+p2.X, p.Y+p2.Y);
     public static PointF Mult(this PointF p, float num) => new PointF(p.X*num, p.Y*num);
     public static PointF Mult(this PointF p, PointF p2) => new PointF(p.X*p2.X, p.Y*p2.Y);
@@ -31,6 +34,11 @@ public static class Ext
 
     public static (int x, int y) ToTuple(this Point p) => (p.X, p.Y);
     public static (float x, float y) ToTuple(this PointF p) => (p.X, p.Y);
+
+    public static Point Min(this Point p1, Point p2) => new Point(p1.X < p2.X ? p1.X : p2.X, p1.Y < p2.Y ? p1.Y : p2.Y);
+    public static Point Max(this Point p1, Point p2) => new Point(p1.X > p2.X ? p1.X : p2.X, p1.Y > p2.Y ? p1.Y : p2.Y);
+    public static PointF Min(this PointF p1, PointF p2) => new PointF(p1.X < p2.X ? p1.X : p2.X, p1.Y < p2.Y ? p1.Y : p2.Y);
+    public static PointF Max(this PointF p1, PointF p2) => new PointF(p1.X > p2.X ? p1.X : p2.X, p1.Y > p2.Y ? p1.Y : p2.Y);
     #endregion
 
     #region Size
@@ -133,6 +141,24 @@ public static class Ext
             if(p.Y > maxY) maxY = p.Y;
         }
         return new Rectangle(minX, minY, maxX-minX, maxY-minY);
+    }
+    #endregion
+
+    #region Direction
+    public static Point GetNeighbor(this Point p, Direction d)
+    {
+        return d switch
+        {
+            Direction.N => p.Plus(0,-1),
+            Direction.S => p.Plus(0,1),
+            Direction.E => p.Plus(1, 0),
+            Direction.W => p.Plus(-1, 0),
+            Direction.NW => p.Plus(-1, -1),
+            Direction.NE => p.Plus(1, -1),
+            Direction.SW => p.Plus(-1, 1),
+            Direction.SE => p.Plus(1, 1),
+            _ => p
+        };
     }
     #endregion
 }

@@ -34,7 +34,7 @@ public class Day03 : Day
     public override object Part1()
     {
         var init = this.GetLines();
-        var lines = Utils.PadBorder(init, '.');
+        var lines = init.PadBorder('.');
 
         var w = lines[0].Length;
         var h = lines.Count;
@@ -79,7 +79,7 @@ public class Day03 : Day
     public override object Part2()
     {
         var init = this.GetLines();
-        var lines = Utils.PadBorder(init, '.');
+        var lines = init.PadBorder('.');
 
         var w = lines[0].Length;
         var h = lines.Count;

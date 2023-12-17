@@ -74,38 +74,23 @@ public static class Utils
         return dict;
     }
 
-    public static List<string> PadBorder(string[] lines, char pad = ' ')
-    {
-        var w = lines[0].Length;
-        var rv = new List<string>();
-
-        var first = "";
-        var last = "";
-        for(int i = 0; i < w + 2; i++)
-        {
-            first += pad;
-            last += pad;
-        }
-
-        rv.Add(first);
-        foreach(var line in lines)
-            rv.Add(pad + line + pad);
-        rv.Add(last);
-
-        return rv;
-    }
-
-    public static IEnumerable<T> Perform<T>(this IEnumerable<T> items, Action<T> action) 
-    { 
-        foreach(var item in items)  
-            action(item);
-        return items;
-    }
 
     public static IEnumerable<long> Range(long start, long len)
     {
         for(var i = start; i < start + len; i++)
             yield return i;
     }
+
+}
+
+public enum Direction
+{
+    N,S,E,W,NW,NE,SW,SE
+}
+public static class DirExt
+{
+    public static bool IsVert(this Direction dir) => dir == Direction.N || dir == Direction.S;
+    public static bool IsHorz(this Direction dir) => dir == Direction.E || dir == Direction.W;
+
 }
 
