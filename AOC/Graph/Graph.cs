@@ -1,8 +1,8 @@
 ﻿using System.Collections;
 
-namespace rsmith985.AOC.Y2023;
+namespace rsmith985.AOC;
 
-class Graph<T>
+public class Graph<T>
 {
     public Dictionary<T, Node<T>> Nodes{get;}
     public Dictionary<string, Edge<T>> Edges{get;}
@@ -37,6 +37,21 @@ class Graph<T>
         this.Edges.Add(key, e);
     }
 
+    public void Add(Edge<T> edge)
+    {
+        this.Edges.Add(edge.Key, edge);
+    }
+
+    public void Remove(Edge<T> edge)
+    {
+        if(!this.Edges.ContainsKey(edge.Key))
+            throw new Exception();
+        
+        edge.Node1.Remove(edge);
+        edge.Node2.Remove(edge);
+        this.Edges.Remove(edge.Key);
+    }
+
     public static string GetEdgeKey((T, T) items)
     {
         var str1 = items.Item1.ToString();
@@ -54,9 +69,34 @@ class Graph<T>
         }
         return graph;
     }
+
+    public bool IsFullyConnected()
+    {
+        var queue = new Queue<Node<T>>();
+        var visited = new HashSet<Node<T>>();
+
+        var first = this.Nodes.Values.First();
+        queue.Enqueue(first); // Start from any vertex
+        visited.Add(first);
+
+        while (queue.Any())
+        {
+            var curr = queue.Dequeue();
+            foreach (var node in curr.GetConnected())
+            {
+                if (!visited.Contains(node))
+                {
+                    queue.Enqueue(node);
+                    visited.Add(node);
+                }
+            }
+        }
+
+        return visited.Count == this.Nodes.Count;
+    }
 }
 
-class Node<T>
+public class Node<T>
 {
     public T Data{ get; }
 
@@ -78,14 +118,25 @@ class Node<T>
                 this.Edges[1] == edge ? this.Edges[0] :
                 throw new Exception();
     }
+
+    public IEnumerable<Node<T>> GetConnected()
+    {
+        foreach(var edge in this.Edges)
+            yield return edge.GetOpposite(this);
+    }
+
+    public void Remove(Edge<T> edge)
+    {
+        this.Edges.Remove(edge);
+    }
 }
 
-class Edge<T>
+public class Edge<T>
 {
     public string Key{get;}
     public Node<T> Node1{get;}
     public Node<T> Node2{get;}
-    public double Weight {get;}
+    public double Weight {get; set;}
 
     public Edge(string key, Node<T> node1, Node<T> node2, double weight = 1.0)
     {

@@ -1,7 +1,9 @@
 ﻿using System.Drawing;
+using System.Security.Cryptography.X509Certificates;
 using Emgu.CV.ML;
+using Emgu.CV.Shape;
 
-namespace rsmith985.AOC.Y2023;
+namespace rsmith985.AOC;
 
 public static class GeometryExt
 {
@@ -62,6 +64,9 @@ public static class GeometryExt
     public static Size ToNonFloat(this SizeF p) => new Size((int)Math.Round(p.Width), (int)Math.Round(p.Height));
     #endregion
 
+    public static double DistanceTo(this Point p1, Point p2)
+        => Math.Sqrt((p1.X - p2.X) * (p1.X - p2.X) + (p1.Y - p2.Y) * (p1.Y - p2.Y));
+
     #region  Polygon
     public static bool PolygonContains(this IList<PointF> poly, PointF p)
     {
@@ -107,6 +112,39 @@ public static class GeometryExt
 
         return rv;
     }
+
+    public static long PolygonArea(this IList<Point> points)
+    {
+        if(points.Count <= 2) return 0;
+
+        var tot = polyAreaAdd(points[^1], points[0]);
+        for(int i = 1; i < points.Count; i++)
+            tot += polyAreaAdd(points[i-1], points[i]);
+
+        return Math.Abs(tot) / 2;
+
+        long polyAreaAdd(Point p1, Point p2) => p1.X * p2.Y - p2.X * p1.Y;
+    }
+    public static long PolygonArea(this IList<(long X, long Y)> points)
+    {
+        if(points.Count <= 2) return 0;
+
+        var tot = polyAreaAdd(points[^1], points[0]);
+        for(int i = 1; i < points.Count; i++)
+            tot += polyAreaAdd(points[i-1], points[i]);
+
+        return Math.Abs(tot) / 2;
+
+        long polyAreaAdd((long X, long Y) p1, (long X, long Y) p2) => p1.X * p2.Y - p2.X * p1.Y;
+    }
+
+    public static double PolygonPerimeter(this IList<Point> points)
+    {
+        var tot = points[^1].DistanceTo(points[0]);
+        for(int i = 1; i < points.Count; i++)
+            tot += points[i-1].DistanceTo(points[i]);
+        return tot;
+    }
     #endregion
 
     #region Bounding Rectangle
@@ -144,21 +182,60 @@ public static class GeometryExt
     }
     #endregion
 
+
     #region Direction
-    public static Point GetNeighbor(this Point p, Direction d)
+    public static Point GetNeighbor(this Point p, Direction d, int dist = 1)
     {
         return d switch
         {
-            Direction.N => p.Plus(0,-1),
-            Direction.S => p.Plus(0,1),
-            Direction.E => p.Plus(1, 0),
-            Direction.W => p.Plus(-1, 0),
-            Direction.NW => p.Plus(-1, -1),
-            Direction.NE => p.Plus(1, -1),
-            Direction.SW => p.Plus(-1, 1),
-            Direction.SE => p.Plus(1, 1),
+            Direction.N => p.Plus(0, -dist),
+            Direction.S => p.Plus(0, dist),
+            Direction.E => p.Plus(dist, 0),
+            Direction.W => p.Plus(-dist, 0),
+            Direction.NW => p.Plus(-dist, -dist),
+            Direction.NE => p.Plus(dist, -dist),
+            Direction.SW => p.Plus(-dist, dist),
+            Direction.SE => p.Plus(dist, dist),
             _ => p
         };
+    }
+    public static (long x, long y) GetNeighbor(this (long x, long y) p, Direction d, long dist = 1)
+    {
+        return d switch
+        {
+            Direction.N => (p.x, p.y-dist),
+            Direction.S => (p.x, p.y+dist),
+            Direction.E => (p.x+dist, p.y),
+            Direction.W => (p.x-dist, p.y),
+            _ => p
+        };
+    }
+
+    public static IEnumerable<Point> GetNeighbors4(this Point p, Rectangle? bounds = null)
+    {
+        if(bounds == null)
+        {
+            yield return p.GetNeighbor(Direction.N);
+            yield return p.GetNeighbor(Direction.S);
+            yield return p.GetNeighbor(Direction.E);
+            yield return p.GetNeighbor(Direction.W);
+        }
+        else
+        {
+            var rect = bounds.Value;
+
+            var n = p.GetNeighbor(Direction.N);
+            if(n.Y >= rect.Y) yield return n;
+
+            var s = p.GetNeighbor(Direction.S);
+            if(s.Y < rect.Y + rect.Height) yield return s;
+
+            var e = p.GetNeighbor(Direction.E);
+            if(e.X < rect.X + rect.Width) yield return e;
+
+            var w = p.GetNeighbor(Direction.W);
+            if(w.X >= rect.X) yield return w;
+        }
     }
     #endregion
 }

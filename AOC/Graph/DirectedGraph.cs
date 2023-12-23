@@ -1,10 +1,10 @@
 ﻿using System.Collections;
 
-namespace rsmith985.AOC.Y2023;
+namespace rsmith985.AOC;
 
-class DirectedGraph<T>
+public class DirectedGraph<T>
 {
-    public Dictionary<T, DGraphNode<T>> Nodes{get;}
+    public Dictionary<T, DirectedNode<T>> Nodes{get;}
     public Dictionary<string, DirectedEdge<T>> Edges{get;}
 
     public DirectedGraph()
@@ -14,11 +14,11 @@ class DirectedGraph<T>
 
     }
 
-    public DGraphNode<T> GetOrAddNode(T data)
+    public DirectedNode<T> GetOrAddNode(T data)
     {
         if(this.Nodes.ContainsKey(data))
             return this.Nodes[data];
-        var node = new DGraphNode<T>(data);
+        var node = new DirectedNode<T>(data);
         this.Nodes.Add(data, node);
         return node;
     }
@@ -44,32 +44,69 @@ class DirectedGraph<T>
         var str2 = items.Item2.ToString();
         return str1 + "_" + str2;
     }
+
+    public bool PathExists(T start, T end)
+    {
+        var sNode = this.Nodes[start];
+        var eNode = this.Nodes[end];
+        return PathExists(sNode, eNode);
+    }
+    public bool PathExists(DirectedNode<T> start, DirectedNode<T> end)
+    {
+        var queue = new Queue<DirectedNode<T>>();
+        var visited = new HashSet<T>();
+
+        queue.Enqueue(start);
+        visited.Add(start.Data);
+
+        while(queue.Any())
+        {
+            var curr = queue.Dequeue();
+            foreach(var conn in curr.ConnectedTo())
+            {
+                if(conn == end) 
+                    return true;
+
+                if(visited.Contains(conn.Data)) continue;
+
+                queue.Enqueue(conn);
+                visited.Add(conn.Data);
+            }
+        }
+        return false;
+    }
 }
 
-class DGraphNode<T>
+public class DirectedNode<T>
 {
     public T Data{ get; }
 
     public List<DirectedEdge<T>> EdgesTo{get;}
     public List<DirectedEdge<T>> EdgesFrom{get;}
 
-    public DGraphNode(T data)
+    public DirectedNode(T data)
     {
         this.Data = data;
         this.EdgesTo = new List<DirectedEdge<T>>();
         this.EdgesFrom = new List<DirectedEdge<T>>();
     }
+
+    public IEnumerable<DirectedNode<T>> ConnectedTo()
+    {
+        foreach(var edge in this.EdgesTo)
+            yield return edge.GetOpposite(this);
+    }
 }
 
 
-internal class DirectedEdge<T>
+public class DirectedEdge<T>
 {
     public string Key{get;}
-    public DGraphNode<T> From{get;}
-    public DGraphNode<T> To{get;}
+    public DirectedNode<T> From{get;}
+    public DirectedNode<T> To{get;}
     public double Weight {get;}
 
-    public DirectedEdge(string key, DGraphNode<T> from, DGraphNode<T> to, double weight = 1.0)
+    public DirectedEdge(string key, DirectedNode<T> from, DirectedNode<T> to, double weight = 1.0)
     {
         this.Key = key;
         this.From = from;
@@ -79,7 +116,7 @@ internal class DirectedEdge<T>
         this.Weight = weight;
     }
 
-    public DGraphNode<T> GetOpposite(DGraphNode<T> node)
+    public DirectedNode<T> GetOpposite(DirectedNode<T> node)
     {
         if(node == this.From) return this.To;
         if(node == this.To) return this.From;

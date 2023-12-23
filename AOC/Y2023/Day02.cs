@@ -2,6 +2,10 @@
 
 public class Day02 : Day
 {
+    public Day02()
+    {
+    }
+
     public override object Part1_() =>
         File.ReadAllLines(_file)
             .Where(line =>

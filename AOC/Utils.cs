@@ -3,6 +3,7 @@ using System.Diagnostics.Contracts;
 using System.Net;
 using System.Reflection;
 using System.Security.Cryptography;
+using Emgu.CV.ML;
 
 namespace rsmith985.AOC;
 
@@ -91,6 +92,18 @@ public static class DirExt
 {
     public static bool IsVert(this Direction dir) => dir == Direction.N || dir == Direction.S;
     public static bool IsHorz(this Direction dir) => dir == Direction.E || dir == Direction.W;
+
+    public static Direction ToDirection(this char c)
+    {
+        return c switch
+        {
+            'N' or 'U' => Direction.N,
+            'S' or 'D' => Direction.S,
+            'E' or 'R' => Direction.E,
+            'W' or 'L' => Direction.W,
+            _ => throw new Exception()
+        };
+    }
 
 }
 

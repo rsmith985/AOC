@@ -1,4 +1,4 @@
-﻿namespace rsmith985.AOC.Y2023;
+﻿namespace rsmith985.AOC;
 
 class PriorityQueue<D, V> : IEnumerable<D>
     where V : IComparable<V>

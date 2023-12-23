@@ -3,7 +3,7 @@
 namespace rsmith985.AOC.Y2023;
 
 
-internal class Djkstra<K>
+internal class Dijkstra<K>
 {
     private Dictionary<K, double> _distTo;
     private Dictionary<K, DirectedEdge<K>> _edgeTo;
@@ -11,11 +11,11 @@ internal class Djkstra<K>
     private PriorityQueue<K, double> _queue;
 
     private DirectedGraph<K> _graph;
-    private DGraphNode<K> _start;
+    private DirectedNode<K> _start;
 
     private bool _hopsNotWeight;
 
-    public Djkstra(DirectedGraph<K> graph, K start, bool hopsNotWeight = false)
+    public Dijkstra(DirectedGraph<K> graph, K start, bool hopsNotWeight = false)
     {
         _graph = graph;
         _start = graph.Nodes[start];

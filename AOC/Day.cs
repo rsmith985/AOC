@@ -1,5 +1,4 @@
 ﻿using System.Diagnostics;
-using System.Net;
 
 namespace rsmith985.AOC;
 
@@ -13,7 +12,7 @@ public abstract class Day
     protected string _file => _testFile ?? $"../../../Y{this.Year}/inputs/input{this.Num}.txt";
 
     protected virtual bool _useDefaultTestFile => false;
-    protected virtual string _testFile  => _useDefaultTestFile ? @"D:\Google Drive\_Ryan\Code\C#\AOC\test.txt" : null;
+    protected virtual string _testFile  => _useDefaultTestFile ? @"D:\Google Drive\_Ryan\Code\C#\AOC\AOC\test.txt" : null;
     protected virtual string _testString => null;
 
     public Day()

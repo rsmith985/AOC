@@ -20,7 +20,7 @@ public class Day17 : Day
     public override object Part1()
     {
         var graph = makeGraph(1, 3);
-        var djkstra = new Djkstra<(int, int, bool)>(graph, _start);
+        var djkstra = new Dijkstra<(int, int, bool)>(graph, _start);
 
         var d1 = djkstra.DistanceTo((this.W - 1, this.H - 1, true));
         var d2 = djkstra.DistanceTo((this.W - 1, this.H - 1, false));
@@ -31,7 +31,7 @@ public class Day17 : Day
     public override object Part2()
     {
         var graph = makeGraph(4, 10);
-        var djkstra = new Djkstra<(int, int, bool)>(graph, _start);
+        var djkstra = new Dijkstra<(int, int, bool)>(graph, _start);
 
         var d1 = djkstra.DistanceTo((this.W - 1, this.H - 1, true));
         var d2 = djkstra.DistanceTo((this.W - 1, this.H - 1, false));
