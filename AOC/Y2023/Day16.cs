@@ -100,7 +100,7 @@ public class Day16 : Day
             }
             debug[y] = str;
         }
-        Console.WriteLine(debug.PrintLines());
+        //Console.WriteLine(debug.PrintLines());
 
         return count;
     }

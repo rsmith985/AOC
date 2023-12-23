@@ -1,6 +1,6 @@
 ﻿using System.Numerics;
 
-namespace rsmith985.AOC.Y2023;
+namespace rsmith985.AOC;
 
 public class MyMath
 {

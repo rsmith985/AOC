@@ -4,8 +4,6 @@ namespace rsmith985.AOC.Y2023;
 
 public class Day08 : Day
 {
-    protected override string _testFile => @"D:\Google Drive\_Ryan\Code\C#\AOC\day8.txt";
-
     public override object Part1_() => 
         new Func<List<int>, Dictionary<string, string[]>, List<string>, int>((path, lookup, route) =>
             Enumerable.Range(1, route.Count - 1)

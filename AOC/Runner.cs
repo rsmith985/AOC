@@ -2,7 +2,7 @@
 
 //SingleLine.Run();
 
-//args = new string[] {"all"};
+//args = new string[] {"2023"};
 //args = new string[] {"2023",  "12"};
 
 if(args.Length == 0)
