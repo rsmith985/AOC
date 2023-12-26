@@ -1,8 +1,4 @@
-﻿using System.Drawing;
-using System.Security.Cryptography.X509Certificates;
-using Emgu.CV.ML;
-using Emgu.CV.Shape;
-
+﻿
 namespace rsmith985.AOC;
 
 public static class GeometryExt

@@ -13,18 +13,46 @@ internal class Dijkstra<K>
     private DirectedGraph<K> _graph;
     private DirectedNode<K> _start;
 
-    private bool _hopsNotWeight;
-
-    public Dijkstra(DirectedGraph<K> graph, K start, bool hopsNotWeight = false)
+    public Dijkstra(DirectedGraph<K> graph, K start)
     {
         _graph = graph;
         _start = graph.Nodes[start];
-        _hopsNotWeight = hopsNotWeight;
         compute();
     }
 
     public double DistanceTo(K key) => _distTo[key];
     public bool PathExistsTo(K key) => _distTo[key] < double.PositiveInfinity;
+
+    public K GetFarthestNode()
+    {
+        K key = default;
+        var dist = double.MinValue;
+        foreach(var kv in _distTo)
+        {
+            if(kv.Value > dist)
+            {
+                dist = kv.Value;
+                key = kv.Key;
+            }
+        }
+        return key;
+    }
+
+    public List<DirectedEdge<K>> GetEdgePathTo(K key)
+    {
+        var rv = new List<DirectedEdge<K>>();
+
+        var curr = _graph.Nodes[key];
+        while(curr != _start)
+        {
+            var e = _edgeTo[curr.Data];
+            rv.Add(e);
+            curr = e.GetOpposite(curr);
+        }
+        rv.Reverse();
+
+        return rv;
+    }
 
     private void compute()
     {
@@ -51,7 +79,7 @@ internal class Dijkstra<K>
 
     private void relax(DirectedEdge<K> edge)
     {
-        var weight = _hopsNotWeight ? 1 : edge.Weight;
+        var weight = edge.Weight;
         var v = edge.From.Data;
         var w = edge.To.Data;
 

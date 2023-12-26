@@ -122,4 +122,10 @@ public class DirectedEdge<T>
         if(node == this.To) return this.From;
         throw new Exception();
     }
+    public T GetOpposite(T node)
+    {
+        if(node.Equals(this.From.Data)) return this.To.Data;
+        if(node.Equals(this.To.Data)) return this.From.Data;
+        throw new Exception();
+    }
 }
