@@ -4,19 +4,21 @@
     <OutputType>Exe</OutputType>
     <TargetFramework>net8.0-windows</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
-    <RootNamespace>rsmith985.AOC.Y2023</RootNamespace>
+    <RootNamespace>rsmith985.AOC.Y2024</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Emgu.CV" Version="4.8.1.5350" />
-    <PackageReference Include="Emgu.CV.Bitmap" Version="4.8.1.5350" />
-    <PackageReference Include="Emgu.CV.runtime.windows" Version="4.8.1.5350" />
+    <PackageReference Include="Emgu.CV" Version="4.9.0.5494" />
+    <PackageReference Include="Emgu.CV.Bitmap" Version="4.9.0.5494" />
+    <PackageReference Include="Emgu.CV.runtime.windows" Version="4.9.0.5494" />
     <PackageReference Include="Microsoft.Z3" Version="4.12.2" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="Utilities\" />
     <Folder Include="Y2022\inputs\" />
+    <Folder Include="Y2023\inputs\" />
+    <Folder Include="Y2024\inputs\" />
   </ItemGroup>
 
 </Project>

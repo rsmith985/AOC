@@ -2,7 +2,7 @@
 
 public static class Const
 {
-    public const int YEAR = 2023;
+    public const int YEAR = 2024;
 
     static Const()
     {
