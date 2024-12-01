@@ -160,4 +160,10 @@ public static class Ext
         var list = items.ToList();
         return (list[0], list[1], list[2], list[3]);
     }
+
+    public static (string a, string b) Split2(this string str, string splitStr = " ")
+    {
+        var vals = str.Split(splitStr, StringSplitOptions.RemoveEmptyEntries|StringSplitOptions.TrimEntries);
+        return (vals[0], vals[1]);
+    }
 }
