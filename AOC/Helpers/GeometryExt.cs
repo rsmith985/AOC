@@ -3,10 +3,12 @@ namespace rsmith985.AOC;
 
 public static class GeometryExt
 {
+    #region Convert Point/Size
     public static Point ToPoint(this Size s) => new Point(s.Width, s.Height);
     public static PointF ToPoint(this SizeF s) => new PointF(s.Width, s.Height);
     public static Size ToSize(this Point s) => new Size(s.X, s.Y);
     public static SizeF ToSize(this PointF s) => new SizeF(s.X, s.Y);
+    #endregion
 
     #region Point
     public static Point Plus(this Point p, int num) => new Point(p.X+num, p.Y+num);

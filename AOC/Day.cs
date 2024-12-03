@@ -94,26 +94,17 @@ public abstract class Day
     }
 
     protected StreamReader GetReader() => new StreamReader(_file);
-    protected string[] GetLines() => _testString != null ? _testString.Split(Environment.NewLine).ToArray() : File.ReadAllLines(_file);
 
-    protected List<string[]> GetWordsPerLine(char sep = ' ', bool trim = true)
-    {
-        var rv = new List<string[]>();
-        foreach(var line in GetLines())
-        {
-            var words = line.Split(sep);
-            if(trim)
-                words = words.Select(i => i.Trim()).ToArray();
-            rv.Add(words);
-        }
-        return rv;
-    }
+    protected string[] GetLines() => 
+        _testString != null ? 
+            _testString.Split(Environment.NewLine).ToArray() : 
+            File.ReadAllLines(_file);
 
-    protected List<int> GetIntList()
+    protected List<long> GetNumberList()
     {
-        var rv = new List<int>();
+        var rv = new List<long>();
         foreach(var line in GetLines())
-            rv.Add(int.Parse(line));
+            rv.Add(long.Parse(line));
         return rv;
     }
 

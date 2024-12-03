@@ -11,7 +11,6 @@ public class DirectedGraph<T>
     {
         this.Nodes = new();
         this.Edges = new();
-
     }
 
     public DirectedNode<T> GetOrAddNode(T data)

@@ -6,9 +6,6 @@ public class Line
     public Coord P1 {get; set;}
     public Coord P2 {get; set;}
 
-
-
-
     public Line(Coord p1, Coord p2)
     {
         this.P1 = p1;

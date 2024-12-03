@@ -4,7 +4,14 @@ namespace rsmith985.AOC;
 
 public static class Ext
 {
+    public static IEnumerable<T> Perform<T>(this IEnumerable<T> items, Action<T> action) 
+    { 
+        foreach(var item in items)  
+            action(item);
+        return items;
+    }
 
+    #region Min/Max Object
     public static T MinObject<T>(this IEnumerable<T> items, Func<T, double> func)
     {
         T rv = default;
@@ -35,36 +42,15 @@ public static class Ext
         }
         return rv;
     }
+    #endregion
 
-
-    public static IEnumerable<T> Perform<T>(this IEnumerable<T> items, Action<T> action) 
-    { 
-        foreach(var item in items)  
-            action(item);
-        return items;
-    }
-    public static string Print<T>(this IEnumerable<T> objs, char sep = ',')
-        => string.Join(sep, objs.ToArray());
-    public static string PrintLines(this string[] input)
-        => string.Join('\n', input);
-
+    #region Input Lines Operations
+    /// <summary>
+    /// Gets all characters in a column returned as a string
+    /// </summary>
     public static string GetCol(this string[] lines, int col)
         => new string(lines.Select(i => i[col]).ToArray());
 
-    public static string[] ToStringArray(this char[,] array)
-    {
-        var rv = new string[array.GetLength(1)];
-
-        for(int y = 0;y < array.GetLength(1); y++)
-        {
-            var str = "";
-            for(int x = 0; x < array.GetLength(0); x++)
-                str += array[x,y];
-            rv[y] = str;
-        }
-        return rv;
-    }
-    
     public static void SetCol(this string[] lines, int col, string val)
     {
         for(int y = 0; y < lines.Length; y++)
@@ -73,6 +59,7 @@ public static class Ext
             lines[y] = line[..col] + val[y] + line[(col+1)..];
         }
     }
+    
     public static void SetCol(this string[] lines, int col, char c)
     {
         for(int y = 0; y < lines.Length; y++)
@@ -101,7 +88,43 @@ public static class Ext
 
         return rv;
     }
+    public static List<List<string>> SplitEachLine(this IList<string> lines, string splitOn = " ", StringSplitOptions splitOps = StringSplitOptions.RemoveEmptyEntries|StringSplitOptions.TrimEntries)
+    {
+        var rv = new List<List<string>>();
+        foreach(var line in lines)
+        {
+            var items = line.Split(splitOn, splitOps);
+            rv.Add(items.ToList());
+        }
+        return rv;
+    }
+    public static List<List<T>> SplitEachLine<T>(this IList<string> lines, Func<string, T> op, string splitOn = " ", StringSplitOptions splitOps = StringSplitOptions.RemoveEmptyEntries|StringSplitOptions.TrimEntries)
+    {
+        var rv = new List<List<T>>();
+        foreach(var line in lines)
+        {
+            var items = line.Split(splitOn, splitOps);
+            rv.Add(items.Select(i => op(i)).ToList());
+        }
+        return rv;
+    }
+    #endregion
 
+    #region 2D Char Array
+    public static string[] ToStringArray(this char[,] array)
+    {
+        var rv = new string[array.GetLength(1)];
+
+        for(int y = 0;y < array.GetLength(1); y++)
+        {
+            var str = "";
+            for(int x = 0; x < array.GetLength(0); x++)
+                str += array[x,y];
+            rv[y] = str;
+        }
+        return rv;
+    }
+    
     public static char[,] To2DArray(this IList<string> lines)
     {
         return To2DArray(lines, i => i);
@@ -118,9 +141,9 @@ public static class Ext
         }
         return rv;
     }
+    #endregion
 
-    public static Size GetSize<T>(this T[,] array) => new Size(array.GetLength(0), array.GetLength(1));
-
+    #region Grid
     public static IEnumerable<Point> GetPointsInGrid(this Size s)
     {
         for(int x = 0; x < s.Width; x++)
@@ -132,10 +155,9 @@ public static class Ext
         }
     }
 
+    public static Size GetSize<T>(this T[,] array) => new Size(array.GetLength(0), array.GetLength(1));
     public static T Get<T>(this T[,] array, Point p) => array[p.X, p.Y];
     public static void Set<T>(this T[,] array, Point p, T val) => array[p.X, p.Y] = val;
-
-
     public static IEnumerable<T> LoopAll<T>(this T[,] array)
     {
         for(int x = 0; x < array.GetLength(0); x++)
@@ -144,7 +166,9 @@ public static class Ext
                 yield return array[x,y];   
         }
     }
+    #endregion
 
+    #region To Tuple
     public static (T, T) ToTuple2<T>(this IEnumerable<T> items)
     {
         var list = items.ToList();
@@ -166,4 +190,12 @@ public static class Ext
         var vals = str.Split(splitStr, StringSplitOptions.RemoveEmptyEntries|StringSplitOptions.TrimEntries);
         return (vals[0], vals[1]);
     }
+    #endregion
+
+    #region Debugging
+    public static string Print<T>(this IEnumerable<T> objs, char sep = ',')
+        => string.Join(sep, objs.ToArray());
+    public static string PrintLines(this string[] input)
+        => string.Join('\n', input);
+    #endregion
 }

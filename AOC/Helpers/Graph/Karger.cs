@@ -38,5 +38,4 @@ public class Karger<T>
         }
         return rv;
     }
-
 }

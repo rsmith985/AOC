@@ -2,7 +2,6 @@
 
 public class Day01 : Day
 {
-
     //protected override bool _useDefaultTestFile => true;
 
     public override object Part1()
@@ -35,6 +34,6 @@ public class Day01 : Day
             set2[val2]++;
         }
 
-        return Enumerable.Range(0, list1.Count).Where(i => set2.ContainsKey(list1[i])).Sum(i => list1[i] * set2[list1[i]]);
+        return list1.Where(i => set2.ContainsKey(i)).Sum(i => i * set2[i]);
     }
 }

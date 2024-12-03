@@ -2,7 +2,6 @@
 
 public class StoerWagnerMinCut<T>
 {
-    private Graph<T> _orig;
     private Dictionary<int, Node<T>> _lookup;
     private Dictionary<Node<T>, int> _reverse;
 
