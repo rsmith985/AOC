@@ -190,6 +190,11 @@ public static class Ext
         var vals = str.Split(splitStr, StringSplitOptions.RemoveEmptyEntries|StringSplitOptions.TrimEntries);
         return (vals[0], vals[1]);
     }
+    public static (T a, T b) Split2<T>(this string str, Func<string, T> func, string splitStr = " ")
+    {
+        var vals = str.Split(splitStr, StringSplitOptions.RemoveEmptyEntries|StringSplitOptions.TrimEntries);
+        return (func(vals[0]), func(vals[1]));
+    }
     #endregion
 
     #region Debugging
