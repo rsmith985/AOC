@@ -88,6 +88,60 @@ public static class Ext
 
         return rv;
     }
+    public static List<string> GetAllForwardDiagonals(this string[] lines)
+    {
+        var rv = new List<string>();
+        var w = lines[0].Length;
+        for(int x = 0; x < w; x++)
+        {
+            var str = "";
+            for(int y = 0; y <= x; y++)
+            {
+                str += lines[y][x - y];
+            }
+            rv.Add(str);
+        }
+        for(int y = 1; y < lines.Length; y++)
+        {
+            var str = "";
+            var yy = 0;
+            for(int x = w-1; x >= y; x--)
+            {
+                str += lines[y + yy][x];
+                yy++;
+            }
+            rv.Add(str);
+        }
+        return rv;
+    }
+    public static List<string> GetAllBackwardsDiagonals(this string[] lines)
+    {
+        var rv = new List<string>();
+        var w = lines[0].Length;
+        var h = lines.Length;
+        for(int x = w-1; x >= 0; x--)
+        {
+            var str = "";
+            var num = w-x;
+            for(int y = 0; y < num; y++)
+            {
+                str += lines[y][x + y];
+            }
+            rv.Add(str);
+        }
+        for(int y = 1; y < h; y++)
+        {
+            var str = "";
+            var yy = 0;
+            for(int x = 0; x < w-y; x++)
+            {
+                str += lines[y + yy][x];
+                yy++;
+            }
+            rv.Add(str);
+        }
+        return rv;
+    }
     public static List<List<string>> SplitEachLine(this IList<string> lines, string splitOn = " ", StringSplitOptions splitOps = StringSplitOptions.RemoveEmptyEntries|StringSplitOptions.TrimEntries)
     {
         var rv = new List<List<string>>();
