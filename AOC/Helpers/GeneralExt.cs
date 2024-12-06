@@ -239,6 +239,12 @@ public static class Ext
         return (list[0], list[1], list[2], list[3]);
     }
 
+    public static IEnumerable<T> Split<T>(this string str, Func<string, T> func, string splitStr = " ")
+    {
+        var vals = str.Split(splitStr, StringSplitOptions.RemoveEmptyEntries|StringSplitOptions.TrimEntries);
+        foreach(var val in vals)
+            yield return func(val);
+    }
     public static (string a, string b) Split2(this string str, string splitStr = " ")
     {
         var vals = str.Split(splitStr, StringSplitOptions.RemoveEmptyEntries|StringSplitOptions.TrimEntries);

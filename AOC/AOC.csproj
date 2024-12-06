@@ -4,7 +4,7 @@
     <OutputType>Exe</OutputType>
     <TargetFramework>net8.0-windows</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
-    <RootNamespace>rsmith985.AOC.Y2024</RootNamespace>
+    <RootNamespace>rsmith985.AOC</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>

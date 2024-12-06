@@ -22,6 +22,11 @@ public class DirectedGraph<T>
         return node;
     }
 
+    public void Add(T n)
+    {
+        var node = new DirectedNode<T>(n);
+        this.Nodes.Add(n, node);
+    }
     public void Add(T n1, T n2, double weight = 1.0)
     {
         this.Add((n1, n2), weight);
@@ -36,12 +41,37 @@ public class DirectedGraph<T>
         var e = new DirectedEdge<T>(key, n1, n2, weight);
         this.Edges.Add(key, e);
     }
+    public void Remove(DirectedNode<T> node)
+    {
+        foreach(var e in node.EdgesFrom.ToList())
+            this.Remove(e);
+        foreach(var e in node.EdgesTo.ToList())
+            this.Remove(e);
+        this.Nodes.Remove(node.Data);
+    }
+    public void Remove(DirectedEdge<T> edge)
+    {
+        if(!this.Edges.ContainsKey(edge.Key))
+            throw new Exception();
+        
+        edge.From.EdgesTo.Remove(edge);
+        edge.To.EdgesFrom.Remove(edge);
+        this.Edges.Remove(edge.Key);
+    }
 
     public static string GetEdgeKey((T, T) items)
     {
         var str1 = items.Item1.ToString();
         var str2 = items.Item2.ToString();
         return str1 + "_" + str2;
+    }
+
+    public void SwapEdgeDirection(DirectedEdge<T> edge)
+    {
+        var newEdge = (edge.To.Data, edge.From.Data);
+        var weight = edge.Weight;
+        this.Remove(edge);
+        this.Add(newEdge, weight);
     }
 
     public bool PathExists(T start, T end)
@@ -73,6 +103,31 @@ public class DirectedGraph<T>
             }
         }
         return false;
+    }
+
+    public DirectedGraph<T> Copy(bool? edgesUnique = null)
+    {
+        var copy = new DirectedGraph<T>();
+        foreach(var e in this.Edges.Values)
+            copy.Add(e.From.Data, e.To.Data, e.Weight);
+        return copy;
+    }
+    public DirectedGraph<T> GetSubGraph(HashSet<T> itemsInSubGraph)
+    {
+        var rv = new DirectedGraph<T>();
+        foreach(var item in itemsInSubGraph)
+            rv.Add(item);
+
+        foreach(var item in itemsInSubGraph)
+        {
+            var node = this.Nodes[item];
+            foreach(var conn in node.ConnectedTo())
+            {
+                if(itemsInSubGraph.Contains(conn.Data))
+                    rv.Add((item, conn.Data));
+            }
+        }
+        return rv;
     }
 }
 
