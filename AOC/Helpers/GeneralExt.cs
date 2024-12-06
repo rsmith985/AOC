@@ -210,6 +210,8 @@ public static class Ext
     }
 
     public static Size GetSize<T>(this T[,] array) => new Size(array.GetLength(0), array.GetLength(1));
+    public static Size GetSize(this IList<string> input) => new Size(input[0].Length, input.Count);
+    public static char GetValueAt(this IList<string> array, Point p) => array[p.Y][p.X];
     public static T Get<T>(this T[,] array, Point p) => array[p.X, p.Y];
     public static void Set<T>(this T[,] array, Point p, T val) => array[p.X, p.Y] = val;
     public static IEnumerable<T> LoopAll<T>(this T[,] array)

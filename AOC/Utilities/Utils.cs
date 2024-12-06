@@ -93,6 +93,34 @@ public static class DirExt
     public static bool IsVert(this Direction dir) => dir == Direction.N || dir == Direction.S;
     public static bool IsHorz(this Direction dir) => dir == Direction.E || dir == Direction.W;
 
+    public static Direction Rotate4_CW(this Direction dir)
+    {
+        if(dir == Direction.N) return Direction.E;
+        else if(dir == Direction.E) return Direction.S;
+        else if(dir == Direction.S) return Direction.W;
+        else if(dir == Direction.W) return Direction.N;
+        throw new Exception();
+    }
+    public static Direction Rotate4_CCW(this Direction dir)
+    {
+        if(dir == Direction.N) return Direction.W;
+        else if(dir == Direction.W) return Direction.S;
+        else if(dir == Direction.S) return Direction.E;
+        else if(dir == Direction.E) return Direction.N;
+        throw new Exception();
+    }
+    public static Direction GetOpposite(this Direction dir)
+    {
+        if(dir == Direction.N) return Direction.S;
+        else if(dir == Direction.W) return Direction.E;
+        else if(dir == Direction.S) return Direction.N;
+        else if(dir == Direction.E) return Direction.W;
+        else if(dir == Direction.NE) return Direction.SW;
+        else if(dir == Direction.NW) return Direction.SE;
+        else if(dir == Direction.SE) return Direction.NW;
+        else if(dir == Direction.SW) return Direction.NE;
+        throw new Exception();
+    }
     public static Direction ToDirection(this char c)
     {
         return c switch
