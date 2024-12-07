@@ -1,5 +1,3 @@
-using System;
-using System.Drawing.Printing;
 
 namespace rsmith985.AOC.Y2024;
 
@@ -76,7 +74,6 @@ public class Day06 : Day
 
         var currDir = Direction.N;
         var currPos = getStart(map);
-        var currVal = map.GetValueAt(currPos);
         while(true)
         {
             visited[currPos.X, currPos.Y] = true;
@@ -85,7 +82,6 @@ public class Day06 : Day
             var nextVal = map.GetValueAt(nextPos);
             while(nextVal == '#')
             {
-
                 currDir = currDir.Rotate4_CW();
                 nextPos = currPos.GetNeighbor(currDir);
                 nextVal = map.GetValueAt(nextPos);
@@ -102,7 +98,6 @@ public class Day06 : Day
             }
 
             currPos = nextPos;
-            currVal = nextVal;
         }
     }
 

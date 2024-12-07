@@ -265,4 +265,12 @@ public static class Ext
     public static string PrintLines(this string[] input)
         => string.Join('\n', input);
     #endregion
+
+    public static Stack<T> Clone<T>(this Stack<T> input)
+    {
+        var array = new T[input.Count];
+        input.CopyTo(array, 0);
+        Array.Reverse(array);
+        return new Stack<T>(array);
+    }
 }
