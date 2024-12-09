@@ -8,7 +8,6 @@ public class Day07 : Day
     public override object Part1()
     {
         var input = parseInput();
-
         var funcs = new List<Func<long, long, long>>(){add, mult};
 
         long tot = 0;
@@ -24,7 +23,6 @@ public class Day07 : Day
     public override object Part2()
     {
         var input = parseInput();
-
         var funcs = new List<Func<long, long, long>>(){add, mult, concat};
 
         long tot = 0;
@@ -81,7 +79,6 @@ public class Day07 : Day
 
     private long concat(long a, long b)
     {
-        //return a*(10*(long)Math.Log10(b))+b;
         return long.Parse($"{a}{b}");
     }
 }

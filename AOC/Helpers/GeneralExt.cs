@@ -273,4 +273,11 @@ public static class Ext
         Array.Reverse(array);
         return new Stack<T>(array);
     }
+
+    public static string ReplaceStringChar(this string str, int pos, char c)
+    {
+        var charArray = str.ToList();
+        charArray[pos] = c;
+        return new string(charArray.ToArray());
+    }
 }
