@@ -107,6 +107,20 @@ public abstract class Day
             rv.Add(long.Parse(line));
         return rv;
     }
+    protected int[,] GetNumberGrid()
+    {
+        var lines = this.GetLines();
+        var rv = new int[lines[0].Length, lines.Length];
+        for(int y = 0; y < lines.Length; y++)
+        {
+            var line = lines[y];
+            for(int x = 0; x < line.Length; x++)
+            {
+                rv[x,y] = line[x] - 48;
+            }
+        }
+        return rv;
+    }
 
     protected List<(string k, string v)> GetKVList(char sep = ' ')
     {

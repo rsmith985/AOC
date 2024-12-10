@@ -88,6 +88,24 @@ public static class Ext
 
         return rv;
     }
+    public static T[,] PadBorder<T>(this T[,] grid, T val)
+    {
+        var rv = new T[grid.GetLength(0) + 2, grid.GetLength(1) + 2];
+
+        for(int x = 0; x < rv.GetLength(0); x++)
+            rv[x, 0] = rv[x, rv.GetLength(1)-1] = val;
+        for(int y = 0; y < rv.GetLength(1); y++)
+            rv[0, y] = rv[rv.GetLength(0)-1, y] = val;
+
+        for(int x = 0; x < grid.GetLength(0); x++)
+        {
+            for(int y = 0; y < grid.GetLength(1); y++)
+            {
+                rv[x+1, y+1] = grid[x, y];
+            }
+        }
+        return rv;
+    }
     public static List<string> GetAllForwardDiagonals(this string[] lines)
     {
         var rv = new List<string>();
