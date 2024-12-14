@@ -1,4 +1,6 @@
 ﻿
+using System.Linq.Expressions;
+
 namespace rsmith985.AOC;
 
 public static class GeometryExt
@@ -34,6 +36,8 @@ public static class GeometryExt
 
     public static (int x, int y) ToTuple(this Point p) => (p.X, p.Y);
     public static (float x, float y) ToTuple(this PointF p) => (p.X, p.Y);
+    public static Point ToPoint(this (int x, int y) p) => new Point(p.x, p.y);
+    public static PointF ToPoint(this (float x, float y) p) => new PointF(p.x, p.y);
 
     public static Point Min(this Point p1, Point p2) => new Point(p1.X < p2.X ? p1.X : p2.X, p1.Y < p2.Y ? p1.Y : p2.Y);
     public static Point Max(this Point p1, Point p2) => new Point(p1.X > p2.X ? p1.X : p2.X, p1.Y > p2.Y ? p1.Y : p2.Y);

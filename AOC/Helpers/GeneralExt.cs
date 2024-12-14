@@ -106,6 +106,16 @@ public static class Ext
         }
         return rv;
     }
+    public static T[,] Copy_<T>(this T[,] grid)
+    {
+        var rv = new T[grid.GetLength(0), grid.GetLength(1)];
+        for(int x = 0; x < grid.GetLength(0); x++)
+        {
+            for(int y = 0; y < grid.GetLength(1); y++)
+                rv[x,y] = grid[x,y];
+        }
+        return rv;
+    }
     public static List<string> GetAllForwardDiagonals(this string[] lines)
     {
         var rv = new List<string>();

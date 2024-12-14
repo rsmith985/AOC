@@ -148,6 +148,10 @@ public static class DirExt
             _ => p
         };
     }
+    public static (int, int) GetNeighbor(this (int x, int y) p, Direction d, int dist = 1)
+    {
+        return GetNeighbor(new Point(p.x, p.y), d, dist).ToTuple();
+    }
     public static (long x, long y) GetNeighbor(this (long x, long y) p, Direction d, long dist = 1)
     {
         return d switch

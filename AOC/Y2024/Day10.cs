@@ -8,7 +8,7 @@ public class Day10 : Day
 
     public override object Part1()
     {
-        var grid = this.GetNumberGrid().PadBorder(-1);
+        var grid = this.GetGrid_Int().PadBorder(-1);
         var size = grid.GetSize();
 
         var startLocs = size.GetPointsInGrid().Where(p => grid.Get(p) == 0).ToList();
@@ -30,7 +30,7 @@ public class Day10 : Day
 
     public override object Part2()
     {
-        var grid = this.GetNumberGrid().PadBorder(-1);
+        var grid = this.GetGrid_Int().PadBorder(-1);
         var size = grid.GetSize();
 
         var startLocs = size.GetPointsInGrid().Where(p => grid.Get(p) == 0).ToList();
