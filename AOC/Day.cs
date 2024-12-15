@@ -109,17 +109,7 @@ public abstract class Day
     }
     protected T[,] GetGrid<T>(Func<char, T> func)
     {
-        var lines = this.GetLines();
-        var rv = new T[lines[0].Length, lines.Length];
-        for(int y = 0; y < lines.Length; y++)
-        {
-            var line = lines[y];
-            for(int x = 0; x < line.Length; x++)
-            {
-                rv[x,y] = func(line[x]);
-            }
-        }
-        return rv;
+        return this.GetLines().ToGrid(func);
     }
     protected char[,] GetGrid_Char()
         => GetGrid(i => i);

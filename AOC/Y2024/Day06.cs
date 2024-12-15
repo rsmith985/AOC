@@ -9,7 +9,7 @@ public class Day06 : Day
     {
         var map = this.GetLines().PadBorder('O');
         var visited = getVisited(map);
-        return visited.LoopAll().Count(i => i);
+        return visited.GetAll().Count(i => i);
     }
 
     public override object Part2()

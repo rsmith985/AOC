@@ -125,10 +125,10 @@ public static class DirExt
     {
         return c switch
         {
-            'N' or 'U' => Direction.N,
-            'S' or 'D' => Direction.S,
-            'E' or 'R' => Direction.E,
-            'W' or 'L' => Direction.W,
+            'N' or 'U' or '^' => Direction.N,
+            'S' or 'D' or 'v' => Direction.S,
+            'E' or 'R' or '>' => Direction.E,
+            'W' or 'L' or '<' => Direction.W,
             _ => throw new Exception()
         };
     }

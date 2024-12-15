@@ -226,6 +226,21 @@ public static class Ext
     #endregion
 
     #region Grid
+    public static char[,] ToGrid(this IList<string> lines)
+        => ToGrid(lines, i => i);
+    public static T[,] ToGrid<T>(this IList<string> lines, Func<char, T> func)
+    {
+        var rv = new T[lines[0].Length, lines.Count];
+        for(int y = 0; y < lines.Count; y++)
+        {
+            var line = lines[y];
+            for(int x = 0; x < line.Length; x++)
+            {
+                rv[x,y] = func(line[x]);
+            }
+        }
+        return rv;
+    }
     public static IEnumerable<Point> GetPointsInGrid(this Size s)
     {
         for(int x = 0; x < s.Width; x++)
@@ -242,12 +257,34 @@ public static class Ext
     public static char GetValueAt(this IList<string> array, Point p) => array[p.Y][p.X];
     public static T Get<T>(this T[,] array, Point p) => array[p.X, p.Y];
     public static void Set<T>(this T[,] array, Point p, T val) => array[p.X, p.Y] = val;
-    public static IEnumerable<T> LoopAll<T>(this T[,] array)
+    public static IEnumerable<T> GetAll<T>(this T[,] array)
     {
         for(int x = 0; x < array.GetLength(0); x++)
         {
             for(int y = 0; y < array.GetLength(1); y++)
                 yield return array[x,y];   
+        }
+    }
+    public static IEnumerable<(T item, Point loc)> GetAllValuesAndLocations<T>(this T[,] array)
+    {
+        for(int x = 0; x < array.GetLength(0); x++)
+        {
+            for(int y = 0; y < array.GetLength(1); y++)
+                yield return (array[x,y], new Point(x,y));   
+        }
+    }
+
+    public static void PrintToConsole<T>(this T[,] grid, string sep = "")
+        => PrintToConsole(grid, i => i.ToString(), sep);
+    public static void PrintToConsole<T>(this T[,] grid, Func<T, string> conversion, string sep = "")
+    {
+        for(int y = 0; y < grid.GetLength(1); y++)
+        {
+            for(int x = 0; x < grid.GetLength(0); x++)
+            {
+                Console.Write(conversion(grid[x,y]) + sep);
+            }
+            Console.WriteLine();
         }
     }
     #endregion
