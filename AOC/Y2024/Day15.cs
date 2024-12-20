@@ -32,9 +32,6 @@ public class Day15 : Day
             pos = performMove2(grid, pos, move);
         }
 
-        grid.PrintToConsole();
-        Console.WriteLine();
-
         return grid
                 .GetAllValuesAndLocations()
                 .Where(i => i.item == '[')
@@ -145,7 +142,6 @@ public class Day15 : Day
 
         return nextPos;
     }
-
     private bool canMoveNS(char[,] grid, List<Point> toCheck, List<Point> finalList, Direction dir)
     {
         var nextToCheck = new List<Point>();

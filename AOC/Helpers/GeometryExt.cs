@@ -68,6 +68,8 @@ public static class GeometryExt
 
     public static double DistanceTo(this Point p1, Point p2)
         => Math.Sqrt((p1.X - p2.X) * (p1.X - p2.X) + (p1.Y - p2.Y) * (p1.Y - p2.Y));
+    public static int DistanceTo_CityBlock(this Point p1, Point p2)
+        => Math.Abs(p1.X - p2.X) + Math.Abs(p1.Y - p2.Y);
 
     #region  Polygon
     public static bool PolygonContains(this IList<PointF> poly, PointF p)

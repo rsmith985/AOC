@@ -38,6 +38,28 @@ internal class Dijkstra<K>
         return key;
     }
 
+    public List<K> GetPathTo(K key)
+    {
+        return GetNodePathTo(key).Select(i => i.Data).ToList();
+    }
+
+    public List<DirectedNode<K>> GetNodePathTo(K key)
+    {
+        var rv = new List<DirectedNode<K>>();
+
+        var curr = _graph.Nodes[key];
+        while(curr != _start)
+        {
+            rv.Add(curr);
+
+            var e = _edgeTo[curr.Data];
+            curr = e.GetOpposite(curr);
+        }
+        rv.Add(_start);
+        rv.Reverse();
+        return rv;
+    }
+
     public List<DirectedEdge<K>> GetEdgePathTo(K key)
     {
         var rv = new List<DirectedEdge<K>>();
@@ -50,7 +72,6 @@ internal class Dijkstra<K>
             curr = e.GetOpposite(curr);
         }
         rv.Reverse();
-
         return rv;
     }
 

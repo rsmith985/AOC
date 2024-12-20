@@ -241,6 +241,15 @@ public static class Ext
         }
         return rv;
     }
+    public static T[,] Convert<K, T>(this K[,] input, Func<K, T> func)
+    {
+        var rv = new T[input.GetLength(0), input.GetLength(1)];
+        foreach(var p in input.GetSize().GetPointsInGrid())
+        {
+            rv.Set(p, func(input.Get(p)));
+        }
+        return rv;
+    }
     public static IEnumerable<Point> GetPointsInGrid(this Size s)
     {
         for(int x = 0; x < s.Width; x++)

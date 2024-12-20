@@ -25,6 +25,7 @@ public class DirectedGraph<T>
     public void Add(T n)
     {
         var node = new DirectedNode<T>(n);
+        if(this.Nodes.ContainsKey(n)) return;
         this.Nodes.Add(n, node);
     }
     public void Add(T n1, T n2, double weight = 1.0)
@@ -64,6 +65,27 @@ public class DirectedGraph<T>
         var str1 = items.Item1.ToString();
         var str2 = items.Item2.ToString();
         return str1 + "_" + str2;
+    }
+
+    public void Simplify()
+    {
+        var toRemove = new List<DirectedNode<T>>();
+        foreach(var node in this.Nodes.Values)
+        {
+            if(node.EdgesFrom.Count == 1 && node.EdgesTo.Count == 1)
+            {
+                toRemove.Add(node);
+            }
+        }
+
+        foreach(var node in toRemove)
+        {
+            var from = node.EdgesFrom.First();
+            var to = node.EdgesTo.First();
+
+            this.Remove(node);
+            this.Add(from.From.Data, to.To.Data, from.Weight + to.Weight);
+        }
     }
 
     public void SwapEdgeDirection(DirectedEdge<T> edge)
