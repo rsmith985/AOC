@@ -1,5 +1,3 @@
-using System;
-using System.Reflection.Metadata.Ecma335;
 using rsmith985.AOC.Y2023;
 
 namespace rsmith985.AOC.Y2024;
@@ -35,7 +33,6 @@ public class Day20 : Day
 
     private int getNumberValidSkips(bool[,] grid, List<Point> path, int minSkip, int maxDist)
     {
-        var set = new HashSet<((int, int), (int, int))>();
         var num = 0;
         for(int i = 0; i < path.Count - minSkip + 2; i++)
         {   
@@ -49,8 +46,6 @@ public class Day20 : Day
                 {
                     if(j - i - dist >= minSkip)
                     {
-                        set.Add((p1.ToTuple(), p2.ToTuple()));
-                        //Console.WriteLine(p1 + " " + p2 + " " + (j - i - dist));
                         num++;
                     }
                 }
